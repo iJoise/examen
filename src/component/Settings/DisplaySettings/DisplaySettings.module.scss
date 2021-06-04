@@ -1,0 +1,36 @@
+@import "../../CommonStyles";
+
+.input {
+  width: 450px;
+  &__top{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 25px 0;
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__name{
+  color: #6CE3F9;
+    font-size: 45px;
+  }
+
+  &__number{
+    margin: 10px 0 0 0;
+    width: 200px;
+    height: 40px;
+    font-size: 24px;
+    padding: 0 0 0 90px;
+    border: 3px solid #6CE3F9;
+    border-radius: 5px;
+    outline: none;
+  }
+}
+
+.error {
+  background-color: rgba(255, 0, 0, 0.3);
+  border: 3px solid red;
+}

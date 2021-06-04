@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {initialState} from "./reduser/reduser";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App initialState={initialState}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

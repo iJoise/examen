@@ -1,7 +1,12 @@
-body {
-  background-color: #282B34;
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: Roboto, serif;
+  background-color: #282B34;
 }
 
 code {
