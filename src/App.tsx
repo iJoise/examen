@@ -2,7 +2,15 @@ import React, {useEffect, useReducer} from 'react';
 import s from "./App.module.scss";
 import {Counter} from "./component/Counter/Counter";
 import {Settings} from "./component/Settings/Settings";
-import {reducer, StateType} from "./reduser/reduser";
+import {
+   AddErrorMaxValueAC, AddErrorStartValueAC,
+   ChangeMaxValueAC, ChangeStartValueAC,
+   CounterAC, CounterActivateEditModeAC, CounterDeactivateEditModeAC,
+   DeleteErrorMaxValueAC, DeleteErrorStartValueAC, MaxValueAC,
+   reducer,
+   ResetCounterAC, StartValueAC,
+   StateType
+} from "./reduser/reduser";
 
 type AppPropsType = {
    initialState: StateType
@@ -17,17 +25,17 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
       if (startValue && maxValue) {
          const newStartValue = JSON.parse(startValue)
          const newMaxValue = JSON.parse(maxValue)
-         dispatch({type: 'START-VALUE', value: newStartValue})
-         dispatch({type: 'MAX-VALUE', value: newMaxValue})
-         dispatch({type: 'RESET-INC'})
+         dispatch(StartValueAC(newStartValue))
+         dispatch(MaxValueAC(newMaxValue))
+         dispatch(ResetCounterAC())
          if (newStartValue < 0) {
-            dispatch({type: 'COUNTER-ACTIVATE-EDIT-MODE'})
-            dispatch({type: 'ADD-ERROR-START-VALUE'})
+            dispatch(CounterActivateEditModeAC())
+            dispatch(AddErrorStartValueAC())
          }
          if (newMaxValue <= newStartValue) {
-            dispatch({type: 'COUNTER-ACTIVATE-EDIT-MODE'})
-            dispatch({type: 'ADD-ERROR-MAX-VALUE'})
-            dispatch({type: 'ADD-ERROR-START-VALUE'})
+            dispatch(CounterActivateEditModeAC())
+            dispatch(AddErrorMaxValueAC())
+            dispatch(AddErrorStartValueAC())
          }
       }
    }, []);
@@ -40,33 +48,33 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
 
 
    const addIncrement = () => {
-      dispatch({type: "COUNTER-INC"})
+      dispatch(CounterAC())
    }
    const resetIncrement = () => {
-      dispatch({type: 'RESET-INC'})
+      dispatch(ResetCounterAC())
    }
    const onChangeMaxValue = (value: number) => {
-      dispatch({type: 'CHANGE-MAX-VALUE', value: value})
-      dispatch({type: 'DELETE-ERROR-MAX-VALUE'})
-      dispatch({type: 'DELETE-ERROR-START-VALUE'})
+      dispatch(ChangeMaxValueAC(value))
+      dispatch(DeleteErrorMaxValueAC())
+      dispatch(DeleteErrorStartValueAC())
       if (value <= state.startValue) {
-         dispatch({type: 'ADD-ERROR-MAX-VALUE'})
-         dispatch({type: 'ADD-ERROR-START-VALUE'})
+         dispatch(AddErrorMaxValueAC())
+         dispatch(AddErrorStartValueAC())
       }
    }
    const onChangeStartValue = (value: number) => {
-      dispatch({type: 'CHANGE-START-VALUE', value: value})
-      dispatch({type: 'DELETE-ERROR-START-VALUE'})
+      dispatch(ChangeStartValueAC(value))
+      dispatch(DeleteErrorStartValueAC())
       if (value < 0 || state.maxValue < state.startValue) {
-         dispatch({type: 'ADD-ERROR-START-VALUE'})
+         dispatch(AddErrorStartValueAC())
       }
    }
    const onActiveEditMode = () => {
-      dispatch({type: 'COUNTER-ACTIVATE-EDIT-MODE'})
+      dispatch(CounterActivateEditModeAC())
    }
    const onDeactivateEditMode = () => {
-      dispatch({type: 'RESET-INC'})
-      dispatch({type: 'COUNTER-DEACTIVATE-EDIT-MODE'})
+      dispatch(ResetCounterAC())
+      dispatch(CounterDeactivateEditModeAC())
    }
 
 
