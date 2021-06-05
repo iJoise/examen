@@ -5,7 +5,8 @@ type TopCounterPropsType = {
    counter: number
    maxValue: number
    counterEditMode: boolean
-   error: boolean
+   errorMaxValue: boolean
+   errorStartValue: boolean
 }
 
 
@@ -14,13 +15,14 @@ export const DisplayCounter: React.FC<TopCounterPropsType> = (
       counter,
       maxValue,
       counterEditMode,
-      error
+      errorMaxValue,
+      errorStartValue
    }) => {
 
 
    const counterClass = `${s.counter__span} ${counter === maxValue ? s.red : ''}`;
-   const editTextClass = `${s.counter__edit_text} ${error ? s.red : ''}`
-   const editText = error ? 'Incorrect value!' : 'enter values and press "set"'
+   const editTextClass = `${s.counter__edit_text} ${errorMaxValue || errorStartValue ? s.red : ''}`
+   const editText = errorMaxValue || errorStartValue ? 'Incorrect value!' : 'enter values and press "set"'
 
    return (
       <div className={s.counter}>

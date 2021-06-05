@@ -20,6 +20,15 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
          dispatch({type: 'START-VALUE', value: newStartValue})
          dispatch({type: 'MAX-VALUE', value: newMaxValue})
          dispatch({type: 'RESET-INC'})
+         if (newStartValue < 0) {
+            dispatch({type: 'COUNTER-ACTIVATE-EDIT-MODE'})
+            dispatch({type: 'ADD-ERROR-START-VALUE'})
+         }
+         if (newMaxValue <= newStartValue) {
+            dispatch({type: 'COUNTER-ACTIVATE-EDIT-MODE'})
+            dispatch({type: 'ADD-ERROR-MAX-VALUE'})
+            dispatch({type: 'ADD-ERROR-START-VALUE'})
+         }
       }
    }, []);
 
@@ -38,16 +47,18 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
    }
    const onChangeMaxValue = (value: number) => {
       dispatch({type: 'CHANGE-MAX-VALUE', value: value})
-      dispatch({type: 'DELETE-ERROR'})
-      if (value <= state.startValue || state.startValue < 0) {
-         dispatch({type: 'ADD-ERROR'})
+      dispatch({type: 'DELETE-ERROR-MAX-VALUE'})
+      dispatch({type: 'DELETE-ERROR-START-VALUE'})
+      if (value <= state.startValue) {
+         dispatch({type: 'ADD-ERROR-MAX-VALUE'})
+         dispatch({type: 'ADD-ERROR-START-VALUE'})
       }
    }
    const onChangeStartValue = (value: number) => {
       dispatch({type: 'CHANGE-START-VALUE', value: value})
-      dispatch({type: 'DELETE-ERROR'})
+      dispatch({type: 'DELETE-ERROR-START-VALUE'})
       if (value < 0 || state.maxValue < state.startValue) {
-         dispatch({type: 'ADD-ERROR'})
+         dispatch({type: 'ADD-ERROR-START-VALUE'})
       }
    }
    const onActiveEditMode = () => {
@@ -62,7 +73,8 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
    return (
       <div className={s.app}>
          <Settings
-            error={state.error}
+            errorStartValue={state.errorStartValue}
+            errorMaxValue={state.errorMaxValue}
             onDeactivateEditMode={onDeactivateEditMode}
             onActiveEditMode={onActiveEditMode}
             onChangeStartValue={onChangeStartValue}
@@ -72,7 +84,8 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
             counterEditMode={state.counterEditMode}
          />
          <Counter
-            error={state.error}
+            errorStartValue={state.errorStartValue}
+            errorMaxValue={state.errorMaxValue}
             counterEditMode={state.counterEditMode}
             maxValue={state.maxValue}
             minValue={state.startValue}

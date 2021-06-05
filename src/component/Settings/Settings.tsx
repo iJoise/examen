@@ -10,8 +10,9 @@ type SettingsPropsType = {
    onChangeStartValue: (value: number) => void
    onActiveEditMode: () => void
    onDeactivateEditMode: () => void
-   error: boolean
+   errorMaxValue: boolean
    counterEditMode: boolean
+   errorStartValue: boolean
 }
 
 
@@ -23,10 +24,11 @@ export const Settings:React.FC<SettingsPropsType> = (
       onChangeStartValue,
       onActiveEditMode,
       onDeactivateEditMode,
-      error,
-      counterEditMode
+      errorMaxValue,
+      counterEditMode,
+      errorStartValue
    }) => {
-   console.log('Settings Err:' + error)
+
    const setDisabledClass = `${s.btn} ${counterEditMode ? '' : s.disableBtn}`
 
    const setSettings = () => {
@@ -41,7 +43,8 @@ export const Settings:React.FC<SettingsPropsType> = (
       <div>
          <div className={s.body}>
             <DisplaySettings
-               error={error}
+               errorStartValue={errorStartValue}
+               errorMaxValue={errorMaxValue}
                onActiveEditMode={onActiveEditMode}
                onChangeStartValue={onChangeStartValue}
                onChangeMaxValue={onChangeMaxValue}

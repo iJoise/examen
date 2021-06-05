@@ -10,7 +10,8 @@ type CounterPropsType = {
    maxValue: number
    minValue: number
    counterEditMode: boolean
-   error: boolean
+   errorMaxValue: boolean
+   errorStartValue: boolean
 }
 
 export const Counter: React.FC<CounterPropsType> = (
@@ -21,7 +22,8 @@ export const Counter: React.FC<CounterPropsType> = (
       maxValue,
       minValue,
       counterEditMode,
-      error
+      errorMaxValue,
+      errorStartValue
    }) => {
 
 
@@ -47,7 +49,8 @@ export const Counter: React.FC<CounterPropsType> = (
             counter={counter}
             maxValue={maxValue}
             counterEditMode={counterEditMode}
-            error={error}
+            errorMaxValue={errorMaxValue}
+            errorStartValue={errorStartValue}
          />
          <div className={s.bottom}>
             <Button

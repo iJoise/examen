@@ -7,7 +7,8 @@ type DisplaySettingsPropsType = {
    onChangeMaxValue: (value: number) => void
    onChangeStartValue: (value: number) => void
    onActiveEditMode: () => void
-   error: boolean
+   errorMaxValue: boolean
+   errorStartValue: boolean
 }
 
 
@@ -18,7 +19,8 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = (
       onChangeMaxValue,
       onChangeStartValue,
       onActiveEditMode,
-      error
+      errorMaxValue,
+      errorStartValue
    }) => {
 
    const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +33,8 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = (
       onChangeStartValue(value)
    }
 
-   const inputClass = `${s.input__number} ${error ? s.error : ''}`
+   const inputClassMaxValue = `${s.input__number} ${errorMaxValue ? s.error : ''}`
+   const inputClassStartValue = `${s.input__number} ${errorStartValue ? s.error : ''}`
 
    return (
       <div className={s.counter}>
@@ -42,7 +45,7 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = (
                   onFocus={onActiveEditMode}
                   onChange={onChangeMaxValueHandler}
                   value={maxValue}
-                  className={inputClass}
+                  className={inputClassMaxValue}
                   type="number"
                />
             </div>
@@ -52,7 +55,7 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = (
                   onFocus={onActiveEditMode}
                   onChange={onChangeStartValueHandler}
                   value={startValue}
-                  className={inputClass}
+                  className={inputClassStartValue}
                   type="number"
                />
             </div>
