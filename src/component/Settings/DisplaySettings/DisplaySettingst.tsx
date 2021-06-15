@@ -12,8 +12,9 @@ type DisplaySettingsPropsType = {
 }
 
 
-export const DisplaySettings: React.FC<DisplaySettingsPropsType> = (
-   {
+export const DisplaySettings: React.FC<DisplaySettingsPropsType> = props => {
+
+   const {
       startValue,
       maxValue,
       onChangeMaxValue,
@@ -21,7 +22,7 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = (
       onActiveEditMode,
       errorMaxValue,
       errorStartValue
-   }) => {
+   } = props
 
    const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.valueAsNumber

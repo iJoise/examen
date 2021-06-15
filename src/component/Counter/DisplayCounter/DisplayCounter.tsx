@@ -10,15 +10,15 @@ type TopCounterPropsType = {
 }
 
 
-export const DisplayCounter: React.FC<TopCounterPropsType> = (
-   {
+export const DisplayCounter: React.FC<TopCounterPropsType> = props => {
+
+   const {
       counter,
       maxValue,
       counterEditMode,
       errorMaxValue,
       errorStartValue
-   }) => {
-
+   } = props
 
    const counterClass = `${s.counter__span} ${counter === maxValue ? s.red : ''}`;
    const editTextClass = `${s.counter__edit_text} ${errorMaxValue || errorStartValue ? s.red : ''}`

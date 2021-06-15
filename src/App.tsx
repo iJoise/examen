@@ -3,14 +3,17 @@ import s from "./App.module.scss";
 import {Counter} from "./component/Counter/Counter";
 import {Settings} from "./component/Settings/Settings";
 import {
-   AddErrorMaxValueAC, AddErrorStartValueAC,
-   ChangeMaxValueAC, ChangeStartValueAC,
-   CounterAC, CounterActivateEditModeAC, CounterDeactivateEditModeAC,
-   DeleteErrorMaxValueAC, DeleteErrorStartValueAC, MaxValueAC,
    reducer,
-   ResetCounterAC, StartValueAC,
    StateType
 } from "./reduser/reduser";
+import {
+   AddErrorMaxValueAC,
+   AddErrorStartValueAC,
+   ChangeMaxValueAC,
+   ChangeStartValueAC, CounterAC, CounterActivateEditModeAC, CounterDeactivateEditModeAC,
+   DeleteErrorMaxValueAC,
+   DeleteErrorStartValueAC, MaxValueAC, ResetCounterAC, StartValueAC
+} from "./reduser/actions";
 
 type AppPropsType = {
    initialState: StateType
@@ -65,7 +68,7 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
    const onChangeStartValue = (value: number) => {
       dispatch(ChangeStartValueAC(value))
       dispatch(DeleteErrorStartValueAC())
-      if (value < 0 || state.maxValue < state.startValue) {
+      if (value < 0 || state.maxValue <= state.startValue || state.startValue === state.maxValue) {
          dispatch(AddErrorStartValueAC())
       }
    }

@@ -14,8 +14,9 @@ type CounterPropsType = {
    errorStartValue: boolean
 }
 
-export const Counter: React.FC<CounterPropsType> = (
-   {
+export const Counter: React.FC<CounterPropsType> = props => {
+
+   const {
       counter,
       addIncrement,
       resetIncrement,
@@ -24,8 +25,7 @@ export const Counter: React.FC<CounterPropsType> = (
       counterEditMode,
       errorMaxValue,
       errorStartValue
-   }) => {
-
+   } = props
 
    const incrementDisabledClass = `${s.btn} ${counter === maxValue ? s.disableBtn : ''} ${counterEditMode && s.disableBtn}`;
    const resetDisabledClass = `${s.btn} ${counter === minValue ? s.disableBtn : ''} ${counterEditMode && s.disableBtn}`;

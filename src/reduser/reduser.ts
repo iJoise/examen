@@ -1,29 +1,5 @@
-type MaxValueType = ReturnType<typeof MaxValueAC>
-type StartValueType = ReturnType<typeof StartValueAC>
-type CounterType = ReturnType<typeof CounterAC>
-type CounterActivateEditModeType = ReturnType<typeof CounterActivateEditModeAC>
-type CounterDeactivateEditModeType = ReturnType<typeof CounterDeactivateEditModeAC>
-type ResetCounterType = ReturnType<typeof ResetCounterAC>
-type AddErrorMaxValueType = ReturnType<typeof AddErrorMaxValueAC>
-type DeleteErrorMaxValueType = ReturnType<typeof DeleteErrorMaxValueAC>
-type AddErrorStartValueType = ReturnType<typeof AddErrorStartValueAC>
-type DeleteErrorStartValueType = ReturnType<typeof DeleteErrorStartValueAC>
-type ChangeMaxValueType = ReturnType<typeof ChangeMaxValueAC>
-type ChangeStartValueType = ReturnType<typeof ChangeStartValueAC>
+import {ACTIONS_TYPE, ActionType} from "./actions";
 
-
-export type ActionType = MaxValueType
-   | StartValueType
-   | CounterType
-   | CounterActivateEditModeType
-   | AddErrorMaxValueType
-   | ResetCounterType
-   | ChangeMaxValueType
-   | ChangeStartValueType
-   | CounterDeactivateEditModeType
-   | DeleteErrorMaxValueType
-   | AddErrorStartValueType
-   | DeleteErrorStartValueType
 
 export type StateType = {
    maxValue: number
@@ -45,62 +21,62 @@ export const initialState: StateType = {
 
 export const reducer = (state: StateType, action: ActionType): StateType => {
    switch (action.type) {
-      case 'COUNTER-INC':
+      case ACTIONS_TYPE.COUNTER_INC:
          return {
             ...state,
             counter: state.counter + 1
          }
-      case 'RESET-INC':
+      case ACTIONS_TYPE.RESET_INC:
          return {
             ...state,
             counter: state.counter = state.startValue
          }
-      case 'CHANGE-MAX-VALUE':
+      case ACTIONS_TYPE.CHANGE_MAX_VALUE:
          return {
             ...state,
             maxValue: state.maxValue = action.value
          }
-      case "CHANGE-START-VALUE":
+      case ACTIONS_TYPE.CHANGE_START_VALUE:
          return {
             ...state,
             startValue: state.startValue = action.value
          }
-      case "COUNTER-ACTIVATE-EDIT-MODE":
+      case ACTIONS_TYPE.COUNTER_ACTIVATE_EDIT_MODE:
          return {
             ...state,
             counterEditMode: state.counterEditMode = true
          }
-      case "COUNTER-DEACTIVATE-EDIT-MODE":
+      case ACTIONS_TYPE.COUNTER_DEACTIVATE_EDIT_MODE:
          return {
             ...state,
             counterEditMode: state.counterEditMode = false
          }
-      case "ADD-ERROR-MAX-VALUE":
+      case ACTIONS_TYPE.ADD_ERROR_MAX_VALUE:
          return {
             ...state,
             errorMaxValue: state.errorMaxValue = true
          }
-      case "DELETE-ERROR-MAX-VALUE":
+      case ACTIONS_TYPE.DELETE_ERROR_MAX_VALUE:
          return {
             ...state,
             errorMaxValue: state.errorMaxValue = false
          }
-      case "ADD-ERROR-START-VALUE":
+      case ACTIONS_TYPE.ADD_ERROR_START_VALUE:
          return {
             ...state,
             errorStartValue: state.errorStartValue = true
          }
-      case "DELETE-ERROR-START-VALUE":
+      case ACTIONS_TYPE.DELETE_ERROR_START_VALUE:
          return {
             ...state,
             errorStartValue: state.errorStartValue = false
          }
-      case "START-VALUE":
+      case ACTIONS_TYPE.START_VALUE:
          return {
             ...state,
             startValue: state.startValue = action.value
          }
-      case "MAX-VALUE":
+      case ACTIONS_TYPE.MAX_VALUE:
          return {
             ...state,
             maxValue: state.maxValue = action.value
@@ -108,42 +84,5 @@ export const reducer = (state: StateType, action: ActionType): StateType => {
       default:
          throw new Error('Bad action type');
    }
-}
-
-export const MaxValueAC = (value: number) => {
-   return { type: 'MAX-VALUE', value: value } as const
-}
-export const StartValueAC = (value: number) => {
-   return { type: 'START-VALUE', value: value } as const
-}
-export const CounterAC = () => {
-   return { type: 'COUNTER-INC' } as const
-}
-export const CounterActivateEditModeAC = () => {
-   return { type: 'COUNTER-ACTIVATE-EDIT-MODE' } as const
-}
-export const CounterDeactivateEditModeAC = () => {
-   return { type: 'COUNTER-DEACTIVATE-EDIT-MODE' } as const
-}
-export const ResetCounterAC = () => {
-   return { type: 'RESET-INC' } as const
-}
-export const AddErrorMaxValueAC = () => {
-   return { type: 'ADD-ERROR-MAX-VALUE' } as const
-}
-export const DeleteErrorMaxValueAC = () => {
-   return { type: 'DELETE-ERROR-MAX-VALUE' } as const
-}
-export const AddErrorStartValueAC = () => {
-   return { type: 'ADD-ERROR-START-VALUE' } as const
-}
-export const DeleteErrorStartValueAC = () => {
-   return { type: 'DELETE-ERROR-START-VALUE' } as const
-}
-export const ChangeMaxValueAC = (value: number) => {
-   return {type: 'CHANGE-MAX-VALUE', value: value} as const
-}
-export const ChangeStartValueAC = (value: number) => {
-   return {type: 'CHANGE-START-VALUE', value: value} as const
 }
 

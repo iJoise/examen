@@ -16,8 +16,9 @@ type SettingsPropsType = {
 }
 
 
-export const Settings:React.FC<SettingsPropsType> = (
-   {
+export const Settings: React.FC<SettingsPropsType> = props => {
+
+   const {
       maxValue,
       startValue,
       onChangeMaxValue,
@@ -27,7 +28,7 @@ export const Settings:React.FC<SettingsPropsType> = (
       errorMaxValue,
       counterEditMode,
       errorStartValue
-   }) => {
+   } = props
 
    const setDisabledClass = `${s.btn} ${counterEditMode ? '' : s.disableBtn}`
 
