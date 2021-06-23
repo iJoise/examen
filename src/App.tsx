@@ -1,33 +1,45 @@
-import React, {useEffect, useReducer} from 'react';
+import React, {useEffect} from 'react';
 import s from "./App.module.scss";
 import {Counter} from "./component/Counter/Counter";
 import {Settings} from "./component/Settings/Settings";
 import {
-   reducer,
-   StateType
-} from "./reduser/reduser";
-import {
+   ActionType,
    AddErrorMaxValueAC,
    AddErrorStartValueAC,
    ChangeMaxValueAC,
-   ChangeStartValueAC, CounterAC, CounterActivateEditModeAC, CounterDeactivateEditModeAC,
+   ChangeStartValueAC,
+   CounterAC,
+   CounterActivateEditModeAC,
+   CounterDeactivateEditModeAC,
    DeleteErrorMaxValueAC,
-   DeleteErrorStartValueAC, MaxValueAC, ResetCounterAC, StartValueAC
-} from "./reduser/actions";
+   DeleteErrorStartValueAC,
+   MaxValueAC,
+   ResetCounterAC,
+   StartValueAC
+} from "./redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {Dispatch} from "redux";
+import {selectAllState} from "./redux/selectors";
 
-type AppPropsType = {
-   initialState: StateType
-}
+const App: React.FC = () => {
+   // const [state, dispatch] = useReducer(counterReducer, initialState);
 
-const App: React.FC<AppPropsType> = ({initialState}) => {
-   const [state, dispatch] = useReducer(reducer, initialState);
+   const dispatch = useDispatch<Dispatch<ActionType>>();
+   const {
+      counter,
+      counterEditMode,
+      errorMaxValue,
+      errorStartValue,
+      startValue,
+      maxValue
+   } = useSelector(selectAllState)
 
    useEffect(() => {
-      const startValue = localStorage.getItem('startValue')
-      const maxValue = localStorage.getItem('maxValue')
-      if (startValue && maxValue) {
-         const newStartValue = JSON.parse(startValue)
-         const newMaxValue = JSON.parse(maxValue)
+      const startValueLS = localStorage.getItem('startValue')
+      const maxValueLS = localStorage.getItem('maxValue')
+      if (startValueLS && maxValueLS) {
+         const newStartValue = JSON.parse(startValueLS)
+         const newMaxValue = JSON.parse(maxValueLS)
          dispatch(StartValueAC(newStartValue))
          dispatch(MaxValueAC(newMaxValue))
          dispatch(ResetCounterAC())
@@ -45,9 +57,9 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
 
 
    useEffect(() => {
-      localStorage.setItem('startValue', JSON.stringify(state.startValue))
-      localStorage.setItem('maxValue', JSON.stringify(state.maxValue))
-   }, [state.startValue, state.maxValue]);
+      localStorage.setItem('startValue', JSON.stringify(startValue))
+      localStorage.setItem('maxValue', JSON.stringify(maxValue))
+   }, [startValue, maxValue]);
 
 
    const addIncrement = () => {
@@ -56,22 +68,30 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
    const resetIncrement = () => {
       dispatch(ResetCounterAC())
    }
+
    const onChangeMaxValue = (value: number) => {
       dispatch(ChangeMaxValueAC(value))
       dispatch(DeleteErrorMaxValueAC())
       dispatch(DeleteErrorStartValueAC())
-      if (value <= state.startValue) {
+      if (value <= startValue) {
          dispatch(AddErrorMaxValueAC())
+         dispatch(AddErrorStartValueAC())
+      }
+      if (value <= 0) {
+         dispatch(AddErrorMaxValueAC())
+      }
+      if ( startValue < 0) {
          dispatch(AddErrorStartValueAC())
       }
    }
    const onChangeStartValue = (value: number) => {
       dispatch(ChangeStartValueAC(value))
       dispatch(DeleteErrorStartValueAC())
-      if (value < 0 || state.maxValue <= state.startValue || state.startValue === state.maxValue) {
+      if (value < 0 || maxValue <= startValue || startValue === maxValue || maxValue === 0) {
          dispatch(AddErrorStartValueAC())
       }
    }
+
    const onActiveEditMode = () => {
       dispatch(CounterActivateEditModeAC())
    }
@@ -84,23 +104,23 @@ const App: React.FC<AppPropsType> = ({initialState}) => {
    return (
       <div className={s.app}>
          <Settings
-            errorStartValue={state.errorStartValue}
-            errorMaxValue={state.errorMaxValue}
+            errorStartValue={errorStartValue}
+            errorMaxValue={errorMaxValue}
             onDeactivateEditMode={onDeactivateEditMode}
             onActiveEditMode={onActiveEditMode}
             onChangeStartValue={onChangeStartValue}
             onChangeMaxValue={onChangeMaxValue}
-            maxValue={state.maxValue}
-            startValue={state.startValue}
-            counterEditMode={state.counterEditMode}
+            maxValue={maxValue}
+            startValue={startValue}
+            counterEditMode={counterEditMode}
          />
          <Counter
-            errorStartValue={state.errorStartValue}
-            errorMaxValue={state.errorMaxValue}
-            counterEditMode={state.counterEditMode}
-            maxValue={state.maxValue}
-            minValue={state.startValue}
-            counter={state.counter}
+            errorStartValue={errorStartValue}
+            errorMaxValue={errorMaxValue}
+            counterEditMode={counterEditMode}
+            maxValue={maxValue}
+            minValue={startValue}
+            counter={counter}
             addIncrement={addIncrement}
             resetIncrement={resetIncrement}
          />

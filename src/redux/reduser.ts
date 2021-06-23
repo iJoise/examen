@@ -19,7 +19,7 @@ export const initialState: StateType = {
    errorStartValue: false
 };
 
-export const reducer = (state: StateType, action: ActionType): StateType => {
+export const counterReducer = (state: StateType = initialState, action: ActionType): StateType => {
    switch (action.type) {
       case ACTIONS_TYPE.COUNTER_INC:
          return {
@@ -82,7 +82,7 @@ export const reducer = (state: StateType, action: ActionType): StateType => {
             maxValue: state.maxValue = action.value
          }
       default:
-         throw new Error('Bad action type');
+         return state;
    }
 }
 

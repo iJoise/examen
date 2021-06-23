@@ -42,10 +42,10 @@ export type ActionType = MaxValueType
 
 
 export const MaxValueAC = (value: number) => {
-   return {type: ACTIONS_TYPE.MAX_VALUE, value: value} as const
+   return {type: ACTIONS_TYPE.MAX_VALUE, value} as const
 }
 export const StartValueAC = (value: number) => {
-   return {type: ACTIONS_TYPE.START_VALUE, value: value} as const
+   return {type: ACTIONS_TYPE.START_VALUE, value} as const
 }
 export const CounterAC = () => {
    return {type: ACTIONS_TYPE.COUNTER_INC} as const
@@ -72,8 +72,8 @@ export const DeleteErrorStartValueAC = () => {
    return {type: ACTIONS_TYPE.DELETE_ERROR_START_VALUE} as const
 }
 export const ChangeMaxValueAC = (value: number) => {
-   return {type: ACTIONS_TYPE.CHANGE_MAX_VALUE, value: value} as const
+   return {type: ACTIONS_TYPE.CHANGE_MAX_VALUE, value} as const
 }
 export const ChangeStartValueAC = (value: number) => {
-   return {type: ACTIONS_TYPE.CHANGE_START_VALUE, value: value} as const
+   return {type: ACTIONS_TYPE.CHANGE_START_VALUE, value} as const
 }
