@@ -9,8 +9,6 @@ export enum ACTIONS_TYPE {
    DELETE_ERROR_MAX_VALUE = 'Counter/DELETE_ERROR_MAX_VALUE',
    ADD_ERROR_START_VALUE = 'Counter/ADD_ERROR_START_VALUE',
    DELETE_ERROR_START_VALUE = 'Counter/DELETE_ERROR_START_VALUE',
-   START_VALUE = 'Counter/START_VALUE',
-   MAX_VALUE = 'Counter/MAX_VALUE',
 }
 
 type CounterType = ReturnType<typeof CounterAC>
