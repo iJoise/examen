@@ -48,6 +48,7 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = props => {
                   value={maxValue}
                   className={inputClassMaxValue}
                   type="number"
+                  step={1}
                />
             </div>
             <div className={s.input__bottom}>
@@ -58,6 +59,7 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = props => {
                   value={startValue}
                   className={inputClassStartValue}
                   type="number"
+                  step={1}
                />
             </div>
          </div>

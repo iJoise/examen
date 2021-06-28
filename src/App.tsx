@@ -53,13 +53,13 @@ const App: React.FC = () => {
             dispatch(AddErrorStartValueAC())
          }
       }
-   }, []);
+   }, [dispatch]);
 
 
-   useEffect(() => {
-      localStorage.setItem('startValue', JSON.stringify(startValue))
-      localStorage.setItem('maxValue', JSON.stringify(maxValue))
-   }, [startValue, maxValue]);
+   // useEffect(() => {
+   //    localStorage.setItem('startValue', JSON.stringify(startValue))
+   //    localStorage.setItem('maxValue', JSON.stringify(maxValue))
+   // }, [startValue, maxValue]);
 
 
    const addIncrement = () => {
