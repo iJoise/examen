@@ -13,17 +13,16 @@ import {
    CounterDeactivateEditModeAC,
    DeleteErrorMaxValueAC,
    DeleteErrorStartValueAC,
-   MaxValueAC,
-   ResetCounterAC,
-   StartValueAC
+   ResetCounterAC
 } from "./redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
-import {selectAllState} from "./redux/selectors";
+import {RootStateType} from "./redux/store";
+import {StateType} from "./redux/reduser";
 
 const App: React.FC = () => {
-   // const [state, dispatch] = useReducer(counterReducer, initialState);
 
+   const counterState = useSelector<RootStateType, StateType>(state => state.counter)
    const dispatch = useDispatch<Dispatch<ActionType>>();
    const {
       counter,
@@ -32,35 +31,20 @@ const App: React.FC = () => {
       errorStartValue,
       startValue,
       maxValue
-   } = useSelector(selectAllState)
+   } = counterState
 
    useEffect(() => {
-      const startValueLS = localStorage.getItem('startValue')
-      const maxValueLS = localStorage.getItem('maxValue')
-      if (startValueLS && maxValueLS) {
-         const newStartValue = JSON.parse(startValueLS)
-         const newMaxValue = JSON.parse(maxValueLS)
-         dispatch(StartValueAC(newStartValue))
-         dispatch(MaxValueAC(newMaxValue))
-         dispatch(ResetCounterAC())
-         if (newStartValue < 0) {
-            dispatch(CounterActivateEditModeAC())
-            dispatch(AddErrorStartValueAC())
-         }
-         if (newMaxValue <= newStartValue) {
-            dispatch(CounterActivateEditModeAC())
-            dispatch(AddErrorMaxValueAC())
-            dispatch(AddErrorStartValueAC())
-         }
+      dispatch(ResetCounterAC())
+      if (startValue < 0) {
+         dispatch(CounterActivateEditModeAC())
+         dispatch(AddErrorStartValueAC())
       }
-   }, [dispatch]);
-
-
-   // useEffect(() => {
-   //    localStorage.setItem('startValue', JSON.stringify(startValue))
-   //    localStorage.setItem('maxValue', JSON.stringify(maxValue))
-   // }, [startValue, maxValue]);
-
+      if (maxValue <= startValue) {
+         dispatch(CounterActivateEditModeAC())
+         dispatch(AddErrorMaxValueAC())
+         dispatch(AddErrorStartValueAC())
+      }
+   }, [dispatch, maxValue, startValue]);
 
    const addIncrement = () => {
       dispatch(CounterAC())
@@ -80,14 +64,15 @@ const App: React.FC = () => {
       if (value <= 0) {
          dispatch(AddErrorMaxValueAC())
       }
-      if ( startValue < 0) {
+      if (startValue < 0) {
          dispatch(AddErrorStartValueAC())
       }
    }
    const onChangeStartValue = (value: number) => {
-      dispatch(ChangeStartValueAC(value))
       dispatch(DeleteErrorStartValueAC())
-      if (value < 0 || maxValue <= startValue || startValue === maxValue || maxValue === 0) {
+      dispatch(DeleteErrorMaxValueAC())
+      dispatch(ChangeStartValueAC(value))
+      if (value < 0 || maxValue <= startValue || maxValue === 0) {
          dispatch(AddErrorStartValueAC())
       }
    }

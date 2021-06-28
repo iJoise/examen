@@ -1,6 +1,6 @@
 import {combineReducers, createStore} from "redux";
-import {counterReducer} from "./reduser";
-import {saveState} from "../utils/localstorage";
+import {counterReducer, initialState} from "./reduser";
+import {loadState, saveState} from "../utils/localstorage";
 
 
 const reducers = combineReducers({
@@ -10,7 +10,13 @@ const reducers = combineReducers({
 export type RootStateType = ReturnType<typeof reducers>
 
 
-export const store = createStore(reducers);
+export const store = createStore(reducers, {
+   counter: {
+      ...initialState,
+      maxValue: loadState()?.maxValue,
+      startValue: loadState()?.startValue,
+   }
+});
 
 store.subscribe(() => {
    saveState({

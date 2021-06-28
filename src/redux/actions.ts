@@ -13,8 +13,6 @@ export enum ACTIONS_TYPE {
    MAX_VALUE = 'Counter/MAX_VALUE',
 }
 
-type MaxValueType = ReturnType<typeof MaxValueAC>
-type StartValueType = ReturnType<typeof StartValueAC>
 type CounterType = ReturnType<typeof CounterAC>
 type CounterActivateEditModeType = ReturnType<typeof CounterActivateEditModeAC>
 type CounterDeactivateEditModeType = ReturnType<typeof CounterDeactivateEditModeAC>
@@ -27,9 +25,7 @@ type ChangeMaxValueType = ReturnType<typeof ChangeMaxValueAC>
 type ChangeStartValueType = ReturnType<typeof ChangeStartValueAC>
 
 
-export type ActionType = MaxValueType
-   | StartValueType
-   | CounterType
+export type ActionType = CounterType
    | CounterActivateEditModeType
    | AddErrorMaxValueType
    | ResetCounterType
@@ -41,12 +37,6 @@ export type ActionType = MaxValueType
    | DeleteErrorStartValueType
 
 
-export const MaxValueAC = (value: number) => {
-   return {type: ACTIONS_TYPE.MAX_VALUE, value} as const
-}
-export const StartValueAC = (value: number) => {
-   return {type: ACTIONS_TYPE.START_VALUE, value} as const
-}
 export const CounterAC = () => {
    return {type: ACTIONS_TYPE.COUNTER_INC} as const
 }

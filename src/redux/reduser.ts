@@ -71,16 +71,6 @@ export const counterReducer = (state: StateType = initialState, action: ActionTy
             ...state,
             errorStartValue: state.errorStartValue = false
          }
-      case ACTIONS_TYPE.START_VALUE:
-         return {
-            ...state,
-            startValue: state.startValue = action.value
-         }
-      case ACTIONS_TYPE.MAX_VALUE:
-         return {
-            ...state,
-            maxValue: state.maxValue = action.value
-         }
       default:
          return state;
    }

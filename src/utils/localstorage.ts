@@ -1,24 +1,33 @@
 export const loadState = () => {
    try {
-      const newMaxValue  = localStorage.getItem('maxValue');
+      const newMaxValue = localStorage.getItem('maxValue');
       const newStartValue = localStorage.getItem('startValue');
       if (newMaxValue === null && newStartValue === null) {
-         return undefined;
+         return {
+            maxValue: 5,
+            startValue: 0,
+         }
       }
-      //@ts-ignore
-      return JSON.parse(newMaxValue);
+      if (newMaxValue && newStartValue) {
+         const maxValue = JSON.parse(newMaxValue);
+         const startValue = JSON.parse(newStartValue);
+         return {
+            maxValue,
+            startValue,
+         }
+      }
    } catch (err) {
       return undefined;
    }
 };
 
-export const saveState = (state: {maxValue: number, startValue:number}) => {
+export const saveState = (state: { maxValue: number, startValue: number }) => {
    try {
       const newMaxValue = JSON.stringify(state.maxValue);
       const newStartValue = JSON.stringify(state.startValue);
       localStorage.setItem('maxValue', newMaxValue);
       localStorage.setItem('startValue', newStartValue);
-   } catch(err) {
+   } catch (err) {
       alert(err);
    }
 };
