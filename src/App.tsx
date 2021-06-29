@@ -1,29 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import s from "./App.module.scss";
 import {Counter} from "./component/Counter/Counter";
 import {Settings} from "./component/Settings/Settings";
 import {
    ActionType,
-   AddErrorMaxValueAC,
-   AddErrorStartValueAC,
    ChangeMaxValueAC,
    ChangeStartValueAC,
    CounterAC,
-   CounterActivateEditModeAC,
-   CounterDeactivateEditModeAC,
-   DeleteErrorMaxValueAC,
-   DeleteErrorStartValueAC,
-   ResetCounterAC
+   ResetCounterAC,
+   SetEditModeAC,
+   SetErrorMaxValueAC,
+   SetErrorStartValueAC
 } from "./redux/actions";
-import {useDispatch, useSelector} from "react-redux";
+import {batch, useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
 import {RootStateType} from "./redux/store";
 import {StateType} from "./redux/reduser";
 
 const App: React.FC = () => {
 
-   const counterState = useSelector<RootStateType, StateType>(state => state.counter)
    const dispatch = useDispatch<Dispatch<ActionType>>();
+   const counterState = useSelector<RootStateType, StateType>(state => state.counter)
    const {
       counter,
       counterEditMode,
@@ -31,59 +28,69 @@ const App: React.FC = () => {
       errorStartValue,
       startValue,
       maxValue
-   } = counterState
+   } = counterState;
 
    useEffect(() => {
-      dispatch(ResetCounterAC())
+      dispatch(ResetCounterAC());
       if (startValue < 0) {
-         dispatch(CounterActivateEditModeAC())
-         dispatch(AddErrorStartValueAC())
+         batch(() => {
+            dispatch(SetEditModeAC(true));
+            dispatch(SetErrorStartValueAC(true));
+         })
       }
       if (maxValue <= startValue) {
-         dispatch(CounterActivateEditModeAC())
-         dispatch(AddErrorMaxValueAC())
-         dispatch(AddErrorStartValueAC())
+         batch(() => {
+            dispatch(SetEditModeAC(true));
+            dispatch(SetErrorMaxValueAC(true));
+            dispatch(SetErrorStartValueAC(true));
+         })
       }
    }, [dispatch, maxValue, startValue]);
 
-   const addIncrement = () => {
-      dispatch(CounterAC())
-   }
-   const resetIncrement = () => {
-      dispatch(ResetCounterAC())
-   }
+   const addIncrement = useCallback(() => {
+      dispatch(CounterAC());
+   },[dispatch]);
+   const resetIncrement = useCallback(() => {
+      dispatch(ResetCounterAC());
+   }, [dispatch]);
 
-   const onChangeMaxValue = (value: number) => {
-      dispatch(ChangeMaxValueAC(value))
-      dispatch(DeleteErrorMaxValueAC())
-      dispatch(DeleteErrorStartValueAC())
-      if (value <= startValue) {
-         dispatch(AddErrorMaxValueAC())
-         dispatch(AddErrorStartValueAC())
-      }
-      if (value <= 0) {
-         dispatch(AddErrorMaxValueAC())
-      }
-      if (startValue < 0) {
-         dispatch(AddErrorStartValueAC())
-      }
-   }
-   const onChangeStartValue = (value: number) => {
-      dispatch(DeleteErrorStartValueAC())
-      dispatch(DeleteErrorMaxValueAC())
-      dispatch(ChangeStartValueAC(value))
+   const onChangeMaxValue = useCallback((value: number) => {
+      batch(() => {
+         dispatch(ChangeMaxValueAC(value));
+         dispatch(SetErrorMaxValueAC(false));
+         dispatch(SetErrorStartValueAC(false));
+         if (value <= startValue) {
+            dispatch(SetErrorMaxValueAC(true));
+            dispatch(SetErrorStartValueAC(true));
+         }
+         if (value <= 0) {
+            dispatch(SetErrorMaxValueAC(true));
+         }
+         if (startValue < 0) {
+            dispatch(SetErrorStartValueAC(true));
+         }
+      })
+   }, [dispatch, startValue]);
+   const onChangeStartValue = useCallback((value: number) => {
+      batch(() => {
+         dispatch(SetErrorStartValueAC(false));
+         dispatch(SetErrorMaxValueAC(false));
+         dispatch(ChangeStartValueAC(value));
+      })
       if (value < 0 || maxValue <= startValue || maxValue === 0) {
-         dispatch(AddErrorStartValueAC())
+         dispatch(SetErrorStartValueAC(true));
       }
-   }
+   }, [dispatch, maxValue, startValue]);
 
-   const onActiveEditMode = () => {
-      dispatch(CounterActivateEditModeAC())
-   }
-   const onDeactivateEditMode = () => {
-      dispatch(ResetCounterAC())
-      dispatch(CounterDeactivateEditModeAC())
-   }
+   const onActiveEditMode = useCallback(() => {
+      dispatch(SetEditModeAC(true));
+   }, [dispatch]);
+   const onDeactivateEditMode = useCallback(() => {
+      batch(() => {
+         dispatch(ResetCounterAC());
+         dispatch(SetEditModeAC(false));
+      })
+   }, [dispatch]);
 
 
    return (

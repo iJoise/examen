@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import s from "./Counter.module.scss";
 import {Button} from "../Button/Button";
 import {DisplayCounter} from "./DisplayCounter/DisplayCounter";
@@ -14,7 +14,7 @@ type CounterPropsType = {
    errorStartValue: boolean
 }
 
-export const Counter: React.FC<CounterPropsType> = props => {
+export const Counter: React.FC<CounterPropsType> = React.memo((props) => {
 
    const {
       counter,
@@ -30,18 +30,18 @@ export const Counter: React.FC<CounterPropsType> = props => {
    const incrementDisabledClass = `${s.btn} ${counter === maxValue ? s.disableBtn : ''} ${counterEditMode && s.disableBtn}`;
    const resetDisabledClass = `${s.btn} ${counter === minValue ? s.disableBtn : ''} ${counterEditMode && s.disableBtn}`;
 
-   const disabledIncrementBtn = () => {
+   const disabledIncrementBtn = useCallback(() => {
       if (counterEditMode) {
          return true
       }
       return counter === maxValue;
-   }
-   const disabledResetBtn = () => {
+   }, [counter, counterEditMode, maxValue]);
+   const disabledResetBtn = useCallback(() => {
       if (counterEditMode) {
          return true
       }
       return counter === minValue;
-   }
+   }, [counter, counterEditMode, minValue]);
 
    return (
       <div className={s.body}>
@@ -68,4 +68,4 @@ export const Counter: React.FC<CounterPropsType> = props => {
          </div>
       </div>
    );
-}
+})

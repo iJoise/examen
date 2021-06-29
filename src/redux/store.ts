@@ -13,8 +13,8 @@ export type RootStateType = ReturnType<typeof reducers>
 export const store = createStore(reducers, {
    counter: {
       ...initialState,
-      maxValue: loadState()?.maxValue,
-      startValue: loadState()?.startValue,
+      maxValue: loadState()?.maxValue ?? initialState.maxValue,
+      startValue: loadState()?.startValue ? loadState()?.startValue : initialState.startValue,
    }
 });
 

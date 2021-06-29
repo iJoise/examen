@@ -26,50 +26,19 @@ export const counterReducer = (state: StateType = initialState, action: ActionTy
             ...state,
             counter: state.counter + 1
          }
-      case ACTIONS_TYPE.RESET_INC:
+      case ACTIONS_TYPE.RESET_COUNTER:
          return {
             ...state,
-            counter: state.counter = state.startValue
+            counter: state.startValue
          }
       case ACTIONS_TYPE.CHANGE_MAX_VALUE:
-         return {
-            ...state,
-            maxValue: state.maxValue = action.value
-         }
       case ACTIONS_TYPE.CHANGE_START_VALUE:
+      case ACTIONS_TYPE.SET_EDIT_MODE:
+      case ACTIONS_TYPE.SET_ERROR_MAX_VALUE:
+      case ACTIONS_TYPE.SET_ERROR_START_VALUE:
          return {
             ...state,
-            startValue: state.startValue = action.value
-         }
-      case ACTIONS_TYPE.COUNTER_ACTIVATE_EDIT_MODE:
-         return {
-            ...state,
-            counterEditMode: state.counterEditMode = true
-         }
-      case ACTIONS_TYPE.COUNTER_DEACTIVATE_EDIT_MODE:
-         return {
-            ...state,
-            counterEditMode: state.counterEditMode = false
-         }
-      case ACTIONS_TYPE.ADD_ERROR_MAX_VALUE:
-         return {
-            ...state,
-            errorMaxValue: state.errorMaxValue = true
-         }
-      case ACTIONS_TYPE.DELETE_ERROR_MAX_VALUE:
-         return {
-            ...state,
-            errorMaxValue: state.errorMaxValue = false
-         }
-      case ACTIONS_TYPE.ADD_ERROR_START_VALUE:
-         return {
-            ...state,
-            errorStartValue: state.errorStartValue = true
-         }
-      case ACTIONS_TYPE.DELETE_ERROR_START_VALUE:
-         return {
-            ...state,
-            errorStartValue: state.errorStartValue = false
+            ...action.payload
          }
       default:
          return state;

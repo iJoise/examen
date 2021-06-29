@@ -10,7 +10,7 @@ type TopCounterPropsType = {
 }
 
 
-export const DisplayCounter: React.FC<TopCounterPropsType> = props => {
+export const DisplayCounter: React.FC<TopCounterPropsType> = React.memo((props) => {
 
    const {
       counter,
@@ -33,4 +33,4 @@ export const DisplayCounter: React.FC<TopCounterPropsType> = props => {
          }
       </div>
    )
-}
+});

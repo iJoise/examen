@@ -5,14 +5,14 @@ export type ButtonPropsType = {
    onClick: () => void
    disabled: boolean
 }
-export const Button: React.FC<ButtonPropsType> = (
-   {
+
+export const Button: React.FC<ButtonPropsType> = React.memo((props) => {
+   const    {
       className,
       onClick,
       disabled,
       children
-   }) => {
-
+   } = props;
    return (
       <button
          className={className}
@@ -21,4 +21,4 @@ export const Button: React.FC<ButtonPropsType> = (
       >{children}
       </button>
    )
-}
+});

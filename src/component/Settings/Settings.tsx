@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import s from "./Settings.module.scss";
 import {Button} from "../Button/Button";
 import {DisplaySettings} from "./DisplaySettings/DisplaySettingst";
@@ -16,7 +16,7 @@ type SettingsPropsType = {
 }
 
 
-export const Settings: React.FC<SettingsPropsType> = props => {
+export const Settings: React.FC<SettingsPropsType> = React.memo((props) => {
 
    const {
       maxValue,
@@ -32,13 +32,13 @@ export const Settings: React.FC<SettingsPropsType> = props => {
 
    const setDisabledClass = `${s.btn} ${counterEditMode ? '' : s.disableBtn}`
 
-   const setSettings = () => {
+   const setSettings = useCallback(() => {
       onDeactivateEditMode()
-   }
-   const disabledSetBtn = () => {
+   }, [onDeactivateEditMode])
+   const disabledSetBtn = useCallback(() => {
       return !counterEditMode || startValue < 0 || maxValue <= startValue;
 
-   }
+   }, [counterEditMode, maxValue, startValue])
 
    return (
       <div>
@@ -63,4 +63,4 @@ export const Settings: React.FC<SettingsPropsType> = props => {
          </div>
       </div>
    )
-}
+});

@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import s from "./DisplaySettings.module.scss";
 
 type DisplaySettingsPropsType = {
@@ -12,7 +12,7 @@ type DisplaySettingsPropsType = {
 }
 
 
-export const DisplaySettings: React.FC<DisplaySettingsPropsType> = props => {
+export const DisplaySettings: React.FC<DisplaySettingsPropsType> = React.memo((props) => {
 
    const {
       startValue,
@@ -24,15 +24,15 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = props => {
       errorStartValue
    } = props
 
-   const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+   const onChangeMaxValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.valueAsNumber
       onChangeMaxValue(value)
-   }
+   }, [onChangeMaxValue]);
 
-   const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+   const onChangeStartValueHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.valueAsNumber
       onChangeStartValue(value)
-   }
+   }, [onChangeStartValue]);
 
    const inputClassMaxValue = `${s.input__number} ${errorMaxValue ? s.error : ''}`
    const inputClassStartValue = `${s.input__number} ${errorStartValue ? s.error : ''}`
@@ -65,4 +65,4 @@ export const DisplaySettings: React.FC<DisplaySettingsPropsType> = props => {
          </div>
       </div>
    )
-}
+})
