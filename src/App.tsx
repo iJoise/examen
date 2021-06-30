@@ -30,6 +30,7 @@ const App: React.FC = () => {
       maxValue
    } = counterState;
 
+
    useEffect(() => {
       dispatch(ResetCounterAC());
       if (startValue < 0) {
@@ -45,11 +46,11 @@ const App: React.FC = () => {
             dispatch(SetErrorStartValueAC(true));
          })
       }
-   }, [dispatch, maxValue, startValue]);
+   }, [dispatch, startValue, maxValue]);
 
    const addIncrement = useCallback(() => {
       dispatch(CounterAC());
-   },[dispatch]);
+   }, [dispatch]);
    const resetIncrement = useCallback(() => {
       dispatch(ResetCounterAC());
    }, [dispatch]);
@@ -71,16 +72,17 @@ const App: React.FC = () => {
          }
       })
    }, [dispatch, startValue]);
+
    const onChangeStartValue = useCallback((value: number) => {
+      dispatch(ChangeStartValueAC(value));
       batch(() => {
          dispatch(SetErrorStartValueAC(false));
          dispatch(SetErrorMaxValueAC(false));
-         dispatch(ChangeStartValueAC(value));
       })
-      if (value < 0 || maxValue <= startValue || maxValue === 0) {
+      if (value === maxValue || value < 0 || maxValue <= value || maxValue === 0) {
          dispatch(SetErrorStartValueAC(true));
       }
-   }, [dispatch, maxValue, startValue]);
+   }, [dispatch, maxValue]);
 
    const onActiveEditMode = useCallback(() => {
       dispatch(SetEditModeAC(true));
