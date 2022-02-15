@@ -15,7 +15,7 @@ import {
 import {batch, useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
 import {RootStateType} from "./redux/store";
-import {StateType} from "./redux/reduser";
+import {StateType} from "./redux/reducer";
 
 const App: React.FC = () => {
 

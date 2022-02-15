@@ -1,5 +1,5 @@
 import {combineReducers, createStore} from "redux";
-import {counterReducer, initialState} from "./reduser";
+import {counterReducer, initialState} from "./reducer";
 import {loadState, saveState} from "../utils/localstorage";
 
 
@@ -14,7 +14,7 @@ export const store = createStore(reducers, {
    counter: {
       ...initialState,
       maxValue: loadState()?.maxValue ?? initialState.maxValue,
-      startValue: loadState()?.startValue ? loadState()?.startValue : initialState.startValue,
+      startValue: loadState()?.startValue ?? initialState.startValue,
    }
 });
 
